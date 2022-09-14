@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.kpi.parallel.lab1"},{"l":"com.kpi.parallel.lab1.functions"}];updateSearchResults();
