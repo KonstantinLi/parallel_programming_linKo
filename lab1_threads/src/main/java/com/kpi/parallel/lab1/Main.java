@@ -3,6 +3,7 @@ package com.kpi.parallel.lab1;
 import com.kpi.parallel.lab1.functions.ArithmeticFunction;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +23,20 @@ public class Main {
 
         FileHandler handler = new FileHandler(RESOURCE);
         List<File> resources = handler.getResources();
+        List<Thread> threads = new ArrayList<>();
+
         for (File file : resources) {
             List<ArithmeticFunction> functions = handler.getFunctions(file.getPath());
-            functions.forEach(function -> new Thread(((Runnable) function)).start());
+            functions.forEach(function -> threads.add(new Thread((Runnable) function)));
         }
+
+        threads.forEach(thread -> {
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
