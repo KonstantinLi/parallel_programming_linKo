@@ -30,13 +30,6 @@ public class Main {
             functions.forEach(function -> threads.add(new Thread((Runnable) function)));
         }
 
-        threads.forEach(thread -> {
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        threads.forEach(Thread::start);
     }
 }

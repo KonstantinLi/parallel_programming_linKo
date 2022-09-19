@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 /**
  * Class-parser of <b>.json</b> files containing data for functions.
@@ -77,6 +78,7 @@ public class FileHandler {
      * @return list of functions.
      */
     public List<ArithmeticFunction> getFunctions(String pathToFile) {
+        Semaphore semaphore = new Semaphore(1, true);
         List<ArithmeticFunction> functions = new ArrayList<>();
 
         File file = new File(pathToFile);
@@ -94,11 +96,11 @@ public class FileHandler {
                 if (validateJSONData(jsonObject)) {
                     String nameFunction = (String) jsonObject.get("function");
                     if (nameFunction.equals("F1")) {
-                        functions.add(createF1(jsonObject));
+                        functions.add(createF1(jsonObject, semaphore));
                     } else if (nameFunction.equals("F2")) {
-                        functions.add(createF2(jsonObject));
+                        functions.add(createF2(jsonObject, semaphore));
                     } else if (nameFunction.equals("F3")) {
-                        functions.add(createF3(jsonObject));
+                        functions.add(createF3(jsonObject, semaphore));
                     }
                 }
             }
@@ -115,7 +117,7 @@ public class FileHandler {
      * @param jsonObject {@link JSONObject}
      * @return function.
      */
-    private ArithmeticFunction createF1(JSONObject jsonObject) {
+    private ArithmeticFunction createF1(JSONObject jsonObject, Semaphore sem) {
         int size = (int) ((long) jsonObject.get("size"));
         JSONArray data = (JSONArray) jsonObject.get("data");
 
@@ -139,7 +141,7 @@ public class FileHandler {
             }
         }
 
-        return new FunctionA(size,
+        return new FunctionA(sem, size,
                 (int[]) variables.get("A"),
                 (int[]) variables.get("B"),
                 (int[]) variables.get("C"),
@@ -153,7 +155,7 @@ public class FileHandler {
      * @param jsonObject {@link JSONObject}
      * @return function.
      */
-    private ArithmeticFunction createF2(JSONObject jsonObject) {
+    private ArithmeticFunction createF2(JSONObject jsonObject, Semaphore sem) {
         int size = (int) ((long) jsonObject.get("size"));
         JSONArray data = (JSONArray) jsonObject.get("data");
 
@@ -171,7 +173,7 @@ public class FileHandler {
             copyMatrixFromJSON(size, valuesJSON, variables.get(nameVariable));
         }
 
-        return new FunctionB(size,
+        return new FunctionB(sem, size,
                 variables.get("MF"),
                 variables.get("MG"),
                 variables.get("MH"));
@@ -183,7 +185,7 @@ public class FileHandler {
      * @param jsonObject {@link JSONObject}
      * @return function.
      */
-    private ArithmeticFunction createF3(JSONObject jsonObject) {
+    private ArithmeticFunction createF3(JSONObject jsonObject, Semaphore sem) {
         int size = (int) ((long) jsonObject.get("size"));
         JSONArray data = (JSONArray) jsonObject.get("data");
 
@@ -206,7 +208,7 @@ public class FileHandler {
             }
         }
 
-        return new FunctionC(size,
+        return new FunctionC(sem, size,
                 (int[]) variables.get("O"),
                 (int[]) variables.get("P"),
                 (int[][]) variables.get("MP"),

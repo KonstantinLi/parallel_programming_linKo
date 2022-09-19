@@ -3,6 +3,7 @@ package com.kpi.parallel.lab1.functions;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.Semaphore;
 
 /**
  * Class implemented {@link ArithmeticFunction} for calculating the function <b>2.14</b>
@@ -12,6 +13,10 @@ import java.util.Scanner;
  * @author Linenko Kostyantyn IO-01
  */
 public class FunctionB implements Runnable, ArithmeticFunction {
+
+    /** Semaphore. */
+    private final Semaphore sem;
+
     /** The size of arrays and square matrices. */
     private final int size;
 
@@ -32,7 +37,8 @@ public class FunctionB implements Runnable, ArithmeticFunction {
      * @param MG MG
      * @param MH MH
      */
-    public FunctionB(int size, int[][] MF, int[][] MG, int[][] MH) {
+    public FunctionB(Semaphore sem, int size, int[][] MF, int[][] MG, int[][] MH) {
+        this.sem = sem;
         this.size = size;
 
         assert (MF.length == size &&
@@ -53,7 +59,8 @@ public class FunctionB implements Runnable, ArithmeticFunction {
      * Constructor that provides a self-entry of data by user.
      * @param size size
      */
-    public FunctionB(int size) {
+    public FunctionB(Semaphore sem, int size) {
+        this.sem = sem;
         this.size = size;
 
         MF = new int[size][size];
@@ -115,8 +122,21 @@ public class FunctionB implements Runnable, ArithmeticFunction {
     @Override
     public void run() {
         String threadName = Thread.currentThread().getName();
-        System.out.println(threadName + " started");
-        System.out.println("F2 = " + Arrays.deepToString(calculate()));
-        System.out.println(threadName + " finished");
+        System.out.println("Запуск потоку " + threadName);
+
+        try {
+            System.out.println("Потік " + threadName + " чекає на дозвіл");
+            sem.acquire();
+
+            System.out.println("Потік " + threadName + " отримує дозвіл");
+            int[][] result = calculate();
+            System.out.println("F2 = " + Arrays.deepToString(result));
+
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        System.out.println("Потік " + threadName + " звільняє дозвіл");
+        sem.release();
     }
 }
