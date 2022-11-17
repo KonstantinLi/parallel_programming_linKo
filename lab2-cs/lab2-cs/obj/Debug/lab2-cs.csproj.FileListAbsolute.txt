@@ -1,0 +1,8 @@
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\bin\Debug\lab2-cs.exe.config
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\bin\Debug\lab2-cs.exe
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\bin\Debug\lab2-cs.pdb
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\obj\Debug\lab2-cs.csproj.AssemblyReference.cache
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\obj\Debug\lab2-cs.csproj.SuggestedBindingRedirects.cache
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\obj\Debug\lab2-cs.csproj.CoreCompileInputs.cache
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\obj\Debug\lab2-cs.exe
+D:\Дистанционка\3-1\Паралельне програмування\labs\lab2-cs\lab2-cs\obj\Debug\lab2-cs.pdb
